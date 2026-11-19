@@ -103,3 +103,137 @@ resetButton.addEventListener("click", () => {
     seconds = 0;
     secondsElement.textContent = seconds;
 });
+
+/*DELAY*/
+
+function delay(value, ms, shouldFail = false) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            shouldFail
+                ? reject(new Error(`Ошибка при обработке: ${value}`))
+                : resolve(value);
+        }, ms);
+    });
+}
+
+delay(1, 500)
+    .then(value => {
+        console.log("Первый шаг:", value);
+        return delay(value + 1, 500, true);
+    })
+    .then(value => {
+        console.log("Второй шаг:", value);
+        return delay(value + 1, 500);
+    })
+    .then(value => {
+        console.log("Третий шаг:", value);
+    })
+    .catch(error => {
+        console.log("Поймана ошибка:", error.message);
+    })
+    .finally(() => {
+        console.log("Цепочка завершена");
+    });
+
+    async function runDelays() {
+    try {
+        let value = await delay(1, 500);
+        console.log("Первый шаг:", value);
+
+        value = await delay(value + 1, 500, true);
+        console.log("Второй шаг:", value);
+
+        value = await delay(value + 1, 500);
+        console.log("Третий шаг:", value);
+
+    } catch (error) {
+        console.log("Поймана ошибка:", error.message);
+    } finally {
+        console.log("Async/await завершен");
+    }
+}
+
+runDelays();
+
+ async function processArray() {
+    const numbers = [1, 2, 3, 4];
+    const results = [];
+
+    for (const value of numbers) {
+        try {
+            const result = await delay(value, 500, Math.random() > 0.7);
+
+            results.push({
+                value: result,
+                error: null
+            });
+
+        } catch (error) {
+            results.push({
+                value: value,
+                error: error.message
+            });
+        }
+    }
+
+    console.log("Результат обработки массива:", results);
+}
+
+processArray();
+
+async function runPromiseAll() {
+    try {
+        const results = await Promise.all([
+            delay(10, 500),
+            delay(20, 1000, true),
+            delay(30, 1500),
+            delay(40, 2000)
+        ]);
+
+        console.log("Promise.all:", results);
+
+    } catch (error) {
+        console.log("Promise.all поймал ошибку:", error.message);
+    }
+}
+
+runPromiseAll();
+
+
+async function runPromiseAllSettled() {
+    const results = await Promise.allSettled([
+        delay(10, 500),
+        delay(20, 1000, true),
+        delay(30, 1500),
+        delay(40, 2000, true)
+    ]);
+
+    const succeeded = results
+        .filter(result => result.status === "fulfilled")
+        .map(result => result.value);
+
+    const failed = results
+        .filter(result => result.status === "rejected")
+        .map(result => result.reason.message);
+
+    console.log("Успешные результаты:", succeeded);
+    console.log("Ошибки:", failed);
+}
+
+runPromiseAllSettled();
+
+async function runPromiseRace() {
+    try {
+        const result = await Promise.race([
+            delay("Полезный результат", 2000),
+            delay("Таймаут", 500, true)
+        ]);
+
+        console.log("Promise.race:", result);
+
+    } catch (error) {
+        console.log("Promise.race поймал ошибку:", error.message);
+    }
+}
+
+runPromiseRace();
