@@ -229,3 +229,55 @@
     height: 100%;
     object-fit: cover;
 }
+
+.form_homework {
+    padding: 100px 0;
+    background: black;
+}
+
+.inner_homework {
+    margin-top: 40px;
+    padding: 40px;
+    border: 1px solid var(--orange);
+    border-radius: 20px;
+}
+
+.inner_homework h3 {
+    margin-bottom: 25px;
+}
+
+.inner_homework form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 450px;
+}
+
+.inner_homework input:not([type="radio"]):not([type="checkbox"]) {
+    padding: 12px;
+    border: 1px solid var(--orange);
+    border-radius: 8px;
+    outline: none;
+}
+
+.inner_homework label {
+    color: white;
+}
+
+.inner_homework .gender {
+    display: flex;
+    gap: 20px;
+}
+
+.inner_homework button {
+    width: fit-content;
+}
+
+.inner_homework p {
+    color: white;
+}
+
+.inner_homework hr {
+    margin: 40px 0;
+    border: 1px solid var(--orange);
+}

@@ -238,3 +238,117 @@ async function runPromiseRace() {
 
 runPromiseRace();
 
+/* APPLICATION/JSON */
+
+const jsonForm = document.getElementById("jsonForm");
+const jsonMessage = document.getElementById("jsonMessage");
+
+jsonForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!jsonForm.checkValidity()) {
+        jsonForm.reportValidity();
+        return;
+    }
+
+    const formData = new FormData(jsonForm);
+
+    if (formData.get("agreement") !== "true") {
+        jsonMessage.textContent = "Please agree to data processing";
+        return;
+    }
+
+    const data = {
+        name: formData.get("name").trim(),
+        email: formData.get("email").trim(),
+        password: formData.get("password"),
+        age: Number(formData.get("age")),
+        gender: formData.get("gender"),
+        agreement: true
+    };
+
+    const button = jsonForm.querySelector("button");
+    button.disabled = true;
+    jsonMessage.textContent = "Sending...";
+
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log("JSON response:", result);
+
+        jsonMessage.textContent = "Successfully sent!";
+
+        jsonForm.reset();
+
+    } catch (error) {
+        console.error(error);
+        jsonMessage.textContent = "Error: " + error.message;
+
+    } finally {
+        button.disabled = false;
+    }
+});
+
+
+/* MULTIPART/FORM-DATA */
+
+const formDataForm = document.getElementById("formDataForm");
+const formDataMessage = document.getElementById("formDataMessage");
+
+formDataForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!formDataForm.checkValidity()) {
+        formDataForm.reportValidity();
+        return;
+    }
+
+    const formData = new FormData(formDataForm);
+
+    if (formData.get("agreement") !== "true") {
+        formDataMessage.textContent = "Please agree to data processing";
+        return;
+    }
+
+    const button = formDataForm.querySelector("button");
+    button.disabled = true;
+    formDataMessage.textContent = "Sending...";
+
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log("FormData response:", result);
+
+        formDataMessage.textContent = "Successfully sent!";
+
+        formDataForm.reset();
+
+    } catch (error) {
+        console.error(error);
+        formDataMessage.textContent = "Error: " + error.message;
+
+    } finally {
+        button.disabled = false;
+    }
+});

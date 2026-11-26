@@ -33,6 +33,83 @@
             </div>
         </div>
     </div>
+    
+    <div class="form_homework">
+    <div class="container">
+
+        <div class="inner_homework">
+
+            <h3>Application/JSON</h3>
+
+            <form id="jsonForm">
+                <input type="text" name="name" placeholder="Name" required>
+
+                <input type="email" name="email" placeholder="Email" required>
+
+                <input type="password" name="password" placeholder="Password" minlength="6" required>
+
+                <input type="number" name="age" placeholder="Age" min="1" max="120" required>
+
+                <div class="gender">
+                    <label>
+                        <input type="radio" name="gender" value="Male" required>
+                        Male
+                    </label>
+
+                    <label>
+                        <input type="radio" name="gender" value="Female">
+                        Female
+                    </label>
+                </div>
+
+                <label>
+                    <input type="checkbox" name="agreement" value="true" required>
+                    I agree to the processing of personal data
+                </label>
+
+                <button class="btn" type="submit">Send JSON</button>
+
+                <p id="jsonMessage"></p>
+            </form>
+
+            <hr>
+
+            <h3>Multipart/Form-Data</h3>
+
+            <form id="formDataForm">
+                <input type="text" name="name" placeholder="Name" required>
+
+                <input type="email" name="email" placeholder="Email" required>
+
+                <input type="password" name="password" placeholder="Password" minlength="6" required>
+
+                <input type="number" name="age" placeholder="Age" min="1" max="120" required>
+
+                <div class="gender">
+                    <label>
+                        <input type="radio" name="gender" value="Male" required>
+                        Male
+                    </label>
+
+                    <label>
+                        <input type="radio" name="gender" value="Female">
+                        Female
+                    </label>
+                </div>
+
+                <label>
+                    <input type="checkbox" name="agreement" value="true" required>
+                    I agree to the processing of personal data
+                </label>
+
+                <button class="btn" type="submit">Send FormData</button>
+
+                <p id="formDataMessage"></p>
+            </form>
+
+        </div>
+    </div>
+</div>
 
     <div class="gmail_block">
         <div class="container">
